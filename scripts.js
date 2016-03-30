@@ -28,10 +28,28 @@
             console.log('Sayings started');
 
             Sayings.instance.writeRandomSaying();
-            window.setInterval(function(){
-                Sayings.instance.writeRandomSaying();
-            }, 5000);
+            //window.setInterval(function(){
+            //    Sayings.instance.writeRandomSaying();
+            //}, 5000);
 
+            window.addEventListener("devicemotion", this.triggerMotion.bind(this));
+
+        },
+        triggerMotion: function(){
+          console.log(event);
+          var x_gravity = event.accelerationIncludingGravity.x;
+          if(x_gravity > 10 && this.new){
+            this.writeRandomSaying();
+            navigator.Vibrate(300);
+
+            this.new = false;
+
+            window.setTimeout(function(){
+              this.new = true;
+            },1000);
+
+
+          }
         },
         startCacheListeners: function(){
             window.applicationCache.addEventListener('updateready',function(){
